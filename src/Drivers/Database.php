@@ -13,7 +13,9 @@ class Database implements Settings
     {
         $this->fetchSettings();
 
-        return $this->values;
+        return $this->values->mapWithKeys(function ($value) {
+            return [$value->key => $value->value];
+        });
     }
 
     public function get(String $key, String $default = '') : String
