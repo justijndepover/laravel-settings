@@ -1,7 +1,6 @@
 {
     "name": "justijndepover/laravel-settings",
     "description": "Store settings in your Laravel application",
-    "type": "library",
     "license": "MIT",
     "authors": [
         {

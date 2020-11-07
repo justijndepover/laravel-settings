@@ -53,11 +53,11 @@ settings()->get('site_name')
 ```
 ### Inject the settings class with dependency injection
 ```php
-use Justijndepover\Settings\Setting;
+use Justijndepover\Settings\Settings;
 
 class HomeController extends Controller
 {
-    public function __invoke(Setting $settings)
+    public function __invoke(Settings $settings)
     {
         $settings->get('site_name')
     }
