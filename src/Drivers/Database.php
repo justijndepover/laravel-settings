@@ -24,7 +24,7 @@ class Database implements Settings
 
         $setting = $this->values->where('key', $key)->first();
 
-        return $setting ? $setting->value : $default;
+        return ($setting && $setting->value) ? $setting->value : $default;
     }
 
     public function set($key, String $value = null) : void
