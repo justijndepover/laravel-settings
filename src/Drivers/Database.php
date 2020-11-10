@@ -63,7 +63,7 @@ class Database implements Settings
 
         $setting = $this->values->where('key', $key)->first();
 
-        return $setting ? true : false;
+        return ($setting && $setting->value) ? true : false;
     }
 
     public function flush() : void
