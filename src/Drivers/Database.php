@@ -4,6 +4,7 @@ namespace Justijndepover\Settings\Drivers;
 
 use Justijndepover\Settings\Settings;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 class Database implements Settings
 {
@@ -55,6 +56,8 @@ class Database implements Settings
                 DB::table('settings')->where('id', '=', $setting->id)->update((array) $setting);
             }
         }
+
+        Cache::forget('justijndepover_settings');
     }
 
     public function has(String $key) : bool
@@ -69,6 +72,7 @@ class Database implements Settings
     public function flush() : void
     {
         DB::table('settings')->delete();
+        Cache::forget('justijndepover_settings');
         $this->values = null;
     }
 
@@ -91,6 +95,7 @@ class Database implements Settings
         }
 
         DB::table('settings')->where('key', '=', $key)->delete();
+        Cache::forget('justijndepover_settings');
 
         $index = $this->values->search(function ($item) use ($key) {
             return $item->key == $key;
@@ -104,7 +109,9 @@ class Database implements Settings
     private function fetchSettings()
     {
         if (empty($this->values)) {
-            $this->values = DB::table('settings')->get();
+            $this->values = Cache::rememberForever('justijndepover_settings', function () {
+                return DB::table('settings')->get();
+            });
         }
     }
 }
