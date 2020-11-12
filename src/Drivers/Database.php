@@ -80,6 +80,7 @@ class Database implements Settings
     {
         if (is_null($key)) {
             $this->flush();
+            return;
         }
 
         $this->forget($key);
