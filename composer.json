@@ -29,7 +29,10 @@
         "laravel": {
             "providers": [
                 "Justijndepover\\Settings\\SettingsServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Settings": "Justijndepover\\Settings\\Facades\\Settings"
+            }
         }
     },
     "minimum-stability": "dev",

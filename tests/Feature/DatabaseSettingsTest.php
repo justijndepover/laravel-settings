@@ -144,4 +144,17 @@ class DatabaseSettingsTest extends TestCase
         $this->assertEquals($this->settings->all()->count(), 1);
         $this->assertEquals(\DB::table('settings')->count(), 1);
     }
+
+    /** @test */
+    public function it_has_a_facade_accessor()
+    {
+        \DB::table('settings')->insert([
+            'key' => 'name',
+            'value' => 'value',
+        ]);
+
+        $setting = \Settings::get('name');
+
+        $this->assertEquals($setting, 'value');
+    }
 }

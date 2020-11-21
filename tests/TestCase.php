@@ -23,6 +23,13 @@ class TestCase extends BaseTestCase
         ];
     }
 
+    protected function getPackageAliases($app)
+    {
+        return [
+            'Settings' => \Justijndepover\Settings\Facades\Settings::class,
+        ];
+    }
+
     public function getEnvironmentSetUp($app)
     {
         $app['config']->set('database.default', 'sqlite');

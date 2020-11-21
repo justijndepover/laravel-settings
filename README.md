@@ -7,20 +7,27 @@
 Store settings in your Laravel application.
 
 ## Caution
+
 This application is still in development and could implement breaking changes. Please use at your own risk.
 
 ## Installation
+
 You can install the package with composer
+
 ```sh
 composer require justijndepover/laravel-settings
 ```
 
 After installation you should publish your configuration file
+
 ```sh
 php artisan vendor:publish --tag="laravel-settings-config"
 ```
+
 ## configuration
+
 This is the config file
+
 ```php
 return [
 
@@ -40,18 +47,24 @@ return [
 ```
 
 If you chose database as your driver, you should create the migration file and execute it
+
 ```sh
 php artisan vendor:publish --tag="laravel-settings-migration"
 php artisan migration
 ```
 
 ## Usage
+
 You have three different ways of interacting with the settings.
+
 ### Use the global helper function
+
 ```php
 settings()->get('site_name')
 ```
+
 ### Inject the settings class with dependency injection
+
 ```php
 use Justijndepover\Settings\Settings;
 
@@ -63,14 +76,17 @@ class HomeController extends Controller
     }
 }
 ```
+
 ### Use the global facade
+
 ```php
-Setting::get('site_name');
+Settings::get('site_name');
 ```
 
 all functionality is available with each method.
 
 ## Examples
+
 ```php
 // get some values
 $settings->get('site_name');
@@ -100,10 +116,13 @@ $settings->delete('site_name');
 ```
 
 ## Security
+
 If you find any security related issues, please open an issue or contact me directly at [justijndepover@gmail.com](justijndepover@gmail.com).
 
 ## Contribution
+
 If you wish to make any changes or improvements to the package, feel free to make a pull request.
 
 ## License
+
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
