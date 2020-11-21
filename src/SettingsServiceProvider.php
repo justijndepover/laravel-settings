@@ -20,7 +20,11 @@ class SettingsServiceProvider extends ServiceProvider
                 __DIR__ . '/../config/settings.php' => config_path('settings.php'),
             ], 'laravel-settings-config');
 
-            $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+            if (! class_exists('CreateSettingsTable')) {
+                $this->publishes([
+                    __DIR__ . '/../database/migrations/create_settings_table.php' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_settings_table.php'),
+                ], 'laravel-settings-migration');
+            }
         }
 
         if (config('settings.driver') == 'database') {
