@@ -3,7 +3,6 @@
 namespace Justijndepover\Settings;
 
 use Illuminate\Support\ServiceProvider;
-use Justijndepover\Settings\Drivers\Database;
 use Justijndepover\Settings\Settings;
 
 class SettingsServiceProvider extends ServiceProvider
@@ -27,8 +26,6 @@ class SettingsServiceProvider extends ServiceProvider
             }
         }
 
-        if (config('settings.driver') == 'database') {
-            $this->app->singleton(Settings::class, Database::class);
-        }
+        $this->app->singleton(Settings::class, config('settings.driver'));
     }
 }

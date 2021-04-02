@@ -2,19 +2,25 @@
 
 namespace Justijndepover\Settings;
 
+use Illuminate\Support\Collection;
+
 interface Settings
 {
-    public function all();
+    public function all(): Collection;
 
-    public function get(String $key, String $default = '') : String;
+    public function get(string $key, string $default = ''): string;
 
-    public function set($key, String $value = null) : void;
+    public function set($key, string $value = null): void;
 
-    public function has(String $key) : bool;
+    public function has(string $key): bool;
 
-    public function flush() : void;
+    public function flush(): void;
 
-    public function delete(String $key = null) : void;
+    public function delete(string $key = null): void;
 
-    public function forget(String $key) : void;
+    public function forget(string $key): void;
+
+    public function forUser(int $id): self;
+
+    public function forLocale(string $locale): self;
 }
