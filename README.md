@@ -53,7 +53,7 @@ If you chose database as your driver, you should create the migration file and e
 
 ```sh
 php artisan vendor:publish --tag="laravel-settings-migration"
-php artisan migration
+php artisan migrate
 ```
 
 ## Usage
