@@ -39,7 +39,7 @@ class TestCase extends BaseTestCase
             'prefix' => '',
         ]);
 
-        include_once __DIR__.'/../database/migrations/2020_11_07_170322_create_settings_table.php';
+        include_once __DIR__.'/../database/migrations/create_settings_table.php';
         (new \CreateSettingsTable())->up();
     }
 }
