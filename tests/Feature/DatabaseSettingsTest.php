@@ -3,6 +3,7 @@
 namespace Justijndepover\Settings\Tests;
 
 use Illuminate\Support\Facades\DB;
+use Justijndepover\Settings\Tests\Models\User;
 
 class DatabaseSettingsTest extends TestCase
 {
@@ -232,5 +233,36 @@ class DatabaseSettingsTest extends TestCase
 
         $setting = DB::table('settings')->where('key', '=', 'name')->where('locale', '=', null)->first();
         $this->assertEquals($setting->value, 'value');
+    }
+
+    /** @test */
+    public function it_can_store_different_locale_settings()
+    {
+        $this->settings->forLocale('nl')->set('name', 'value');
+        $this->settings->forLocale('fr')->set('name', 'value-fr');
+
+        $setting = DB::table('settings')->where('key', '=', 'name')->where('locale', '=', 'nl')->first();
+        $this->assertEquals($setting->value, 'value');
+
+        $setting = DB::table('settings')->where('key', '=', 'name')->where('locale', '=', 'fr')->first();
+        $this->assertEquals($setting->value, 'value-fr');
+    }
+
+    /** @test */
+    public function it_has_a_working_user_setting_trait()
+    {
+        $this->settings->forUser(1)->set('name', 'value');
+
+        $setting = DB::table('settings')->where('key', '=', 'name')->where('user_id', '=', 1)->first();
+        $this->assertEquals($setting->value, 'value');
+
+        $user = User::create([
+            'name' => 'Foo Bar',
+            'email' => 'foo@bar.com',
+            'password' => 'foobar',
+        ]);
+
+        $this->assertEquals($user->settings->get('name'), 'value');
+        $this->assertEquals($user->settings()->get('name'), 'value');
     }
 }

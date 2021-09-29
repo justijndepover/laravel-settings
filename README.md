@@ -6,10 +6,6 @@
 
 Store settings in your Laravel application.
 
-## Caution
-
-This application is still in development and could implement breaking changes. Please use at your own risk.
-
 ## Installation
 
 You can install the package with composer
@@ -49,7 +45,7 @@ return [
 ];
 ```
 
-If you chose database as your driver, you should create the migration file and execute it
+If you chose the default database driver, you should publish the migration file and execute it
 
 ```sh
 php artisan vendor:publish --tag="laravel-settings-migration"
@@ -122,6 +118,7 @@ settings()->delete('site_name');
 ```
 
 ## User settings
+
 In addition to default settings, you can also use this package to store user settings.
 Add the `HasSettings` trait to your User model
 
@@ -148,12 +145,25 @@ settings()->forUser(1)->get('preferred_language');
 ```
 
 ## Language specific settings
+
 It's possible to store / access settings for specific locales.
 ```php
 settings()->forLocale('en')->set('website', 'my-personal-blog.com/en');
 ```
 
 ## Note on how this works
+
+### Caching
+
+Whenever a read operation is executed, the package will check if the value is present in the cache.
+If it's not found, a read operation will be performed to the database (all values are fetched) and stored in the cache for other calls to consume.
+
+This means that performing multiple reads (even with multiple keys) will only perform one database call.
+
+If a write operation is performed, the cache is cleared. Resulting in a new read from database when a new settings is queried.
+
+### User and locale settings
+
 The default driver always stores a `locale` and `user_id` field in the database (defaults to `null`).
 Fetching data from the database will also query on these parameters.
 

@@ -41,5 +41,8 @@ class TestCase extends BaseTestCase
 
         include_once __DIR__.'/../database/migrations/create_settings_table.php';
         (new \CreateSettingsTable())->up();
+
+        include_once __DIR__.'/migrations/2014_10_12_000000_create_users_table.php';
+        (new \CreateUsersTable())->up();
     }
 }

@@ -8,4 +8,9 @@ trait HasSettings
     {
         return settings()->forUser($this->id);
     }
+
+    public function getSettingsAttribute()
+    {
+        return settings()->forUser($this->id);
+    }
 }
