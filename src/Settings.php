@@ -8,7 +8,7 @@ interface Settings
 {
     public function all(): Collection;
 
-    public function get(string $key, string $default = ''): string;
+    public function get(string $key, string $default = null): ?string;
 
     public function set($key, string $value = null): void;
 

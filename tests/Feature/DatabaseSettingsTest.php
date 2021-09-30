@@ -86,6 +86,7 @@ class DatabaseSettingsTest extends TestCase
         ]);
 
         $this->assertEquals($this->settings->has('name'), true);
+        $this->assertEquals($this->settings->has('name2'), false);
     }
 
     /** @test */
@@ -146,6 +147,17 @@ class DatabaseSettingsTest extends TestCase
 
         $this->assertEquals($this->settings->all()->count(), 1);
         $this->assertEquals(DB::table('settings')->count(), 1);
+    }
+
+    /** @test */
+    public function it_has_a_helper_method()
+    {
+        DB::table('settings')->insert([
+            'key' => 'name',
+            'value' => 'value',
+        ]);
+
+        $this->assertEquals(settings('name'), 'value');
     }
 
     /** @test */
@@ -264,5 +276,15 @@ class DatabaseSettingsTest extends TestCase
 
         $this->assertEquals($user->settings->get('name'), 'value');
         $this->assertEquals($user->settings()->get('name'), 'value');
+    }
+
+    /** @test */
+    public function it_can_return_a_default_value()
+    {
+        $value = $this->settings->get('key');
+        $this->assertEquals($value, null);
+
+        $value = $this->settings->get('key', 'value');
+        $this->assertEquals($value, 'value');
     }
 }

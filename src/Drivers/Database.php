@@ -24,7 +24,7 @@ class Database implements Settings
         $this->resetScopes();
     }
 
-    public function get(string $key, string $default = ''): string
+    public function get(string $key, string $default = null): ?string
     {
         $this->fetchSettings();
 
