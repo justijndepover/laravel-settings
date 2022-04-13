@@ -1,6 +1,13 @@
 {
     "name": "justijndepover/laravel-settings",
     "description": "Store settings in your Laravel application",
+    "keywords": [
+        "justijndepover",
+        "laravel",
+        "laravel-settings",
+        "settings"
+    ],
+    "homepage": "https://github.com/justijndepover/laravel-settings",
     "license": "MIT",
     "authors": [
         {
