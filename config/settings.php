@@ -17,4 +17,10 @@ return [
      */
     'auto_store_locale' => false,
 
+    /**
+     * Duration the system should cache the fetched database results
+     * possible values: 'forever', (int) $seconds
+    */
+    'cache_time' => 'forever',
+
 ];
