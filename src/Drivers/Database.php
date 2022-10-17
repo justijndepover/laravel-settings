@@ -157,16 +157,14 @@ class Database implements Settings
 
     private function fetchSettings()
     {
-        if (empty($this->values)) {
-            if (config('settings.forever') == 'forever') {
-                $this->values = Cache::rememberForever('justijndepover_settings', function () {
-                    return DB::table('settings')->get();
-                });
-            } else {
-                $this->values = Cache::remember('justijndepover_settings', (int) config('settings.cache_time'), function () {
-                    return DB::table('settings')->get();
-                });
-            }
+        if (config('settings.cache_time') === 'forever') {
+            $this->values = Cache::rememberForever('justijndepover_settings', function () {
+                return DB::table('settings')->get();
+            });
+        } else {
+            $this->values = Cache::remember('justijndepover_settings', (int) config('settings.cache_time'), function () {
+                return DB::table('settings')->get();
+            });
         }
     }
 

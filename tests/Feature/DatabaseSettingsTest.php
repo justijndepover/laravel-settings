@@ -287,4 +287,46 @@ class DatabaseSettingsTest extends TestCase
         $value = $this->settings->get('key', 'value');
         $this->assertEquals($value, 'value');
     }
+
+    /** @test */
+    public function it_can_cache_results()
+    {
+        config()->set('settings', [
+            'cache_time' => 'forever'
+        ]);
+
+        DB::table('settings')->insert([
+            'key' => 'name',
+            'value' => 'value',
+        ]);
+
+        $this->assertEquals('value', settings('name'));
+
+        DB::table('settings')->where('key', '=', 'name')->update([
+            'value' => 'value2',
+        ]);
+
+        $this->assertEquals('value', settings('name'));
+    }
+
+    /** @test */
+    public function it_can_use_no_cache()
+    {
+        config()->set('settings', [
+            'cache_time' => 0
+        ]);
+
+        DB::table('settings')->insert([
+            'key' => 'name',
+            'value' => 'value',
+        ]);
+
+        $this->assertEquals('value', settings('name'));
+
+        DB::table('settings')->where('key', '=', 'name')->update([
+            'value' => 'value2',
+        ]);
+
+        $this->assertEquals('value2', settings('name'));
+    }
 }
