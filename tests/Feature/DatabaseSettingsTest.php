@@ -329,4 +329,35 @@ class DatabaseSettingsTest extends TestCase
 
         $this->assertEquals('value2', settings('name'));
     }
+
+    /** @test */
+    public function it_can_clear_cache()
+    {
+        config()->set('settings', [
+            'cache_time' => 'forever'
+        ]);
+
+        DB::table('settings')->insert([
+            'key' => 'name',
+            'value' => 'value',
+        ]);
+
+        $this->assertEquals('value', settings('name'));
+
+        DB::table('settings')->where('key', '=', 'name')->update([
+            'value' => 'value2',
+        ]);
+
+        $this->assertEquals('value', settings('name'));
+
+        settings()->clearCache();
+
+        $this->assertEquals('value2', settings('name'));
+
+        DB::table('settings')->where('key', '=', 'name')->update([
+            'value' => 'value3',
+        ]);
+
+        $this->assertEquals('value2', settings('name'));
+    }
 }

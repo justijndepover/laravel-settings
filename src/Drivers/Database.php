@@ -155,6 +155,11 @@ class Database implements Settings
         return $this;
     }
 
+    public function clearCache(): void
+    {
+        Cache::forget('justijndepover_settings');
+    }
+
     private function fetchSettings()
     {
         if (config('settings.cache_time') === 'forever') {

@@ -168,6 +168,21 @@ This means that performing multiple reads (even with multiple keys) will only pe
 
 If a write operation is performed, the cache is cleared. Resulting in a new read from database when a new settings is queried.
 
+**IMPORTANT**
+This means the package uses the cache as it's main source, and falls back to the database otherwise. (which is good in most cases)
+If you change database values directly, you should clear the cache manually.
+
+When working with serverless applications (e.g. AWS Lambda + Bref or Laravel Vapor), this could cause problems if you don't share the cache between the Lambda functions.
+In this case you should either set your Laravel cache to something like Redis, or disable the cache feature in this package. To do this, publish the configuration file and set the `cache_time` to `0`.
+
+#### Clearing the cache
+It's also possible to clear the cache programmatically:
+```php
+settings()->clearCache();
+// or
+Settings::clearCache();
+```
+
 ### User and locale settings
 
 The default driver always stores a `locale` and `user_id` field in the database (defaults to `null`).
