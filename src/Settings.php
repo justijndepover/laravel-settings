@@ -23,4 +23,6 @@ interface Settings
     public function forUser(int $id): self;
 
     public function forLocale(string $locale): self;
+
+    public function clearCache(): void;
 }
