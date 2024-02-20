@@ -14,6 +14,7 @@ class TestCase extends BaseTestCase
         parent::setUp();
 
         $this->settings = app()->make(\Justijndepover\Settings\Settings::class);
+        $this->settings->clearCache();
     }
 
     protected function getPackageProviders($app)

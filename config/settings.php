@@ -19,7 +19,7 @@ return [
 
     /**
      * Duration the system should cache the fetched database results
-     * possible values: 'forever', (int) $seconds
+     * possible values: 'forever', 'current_request', (int) $seconds
     */
     'cache_time' => 'forever',
 

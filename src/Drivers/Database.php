@@ -71,7 +71,7 @@ class Database implements Settings
             }
         }
 
-        Cache::forget('justijndepover_settings');
+        $this->clearCache();
         $this->resetScopes();
     }
 
@@ -93,7 +93,7 @@ class Database implements Settings
     public function flush(): void
     {
         DB::table('settings')->delete();
-        Cache::forget('justijndepover_settings');
+        $this->clearCache();
         $this->values = null;
         $this->resetScopes();
     }
@@ -128,7 +128,7 @@ class Database implements Settings
             ->where('locale', '=', $this->locale)
             ->delete();
 
-        Cache::forget('justijndepover_settings');
+        $this->clearCache();
 
         $index = $this->values->search(function ($item) use ($key) {
             return ($item->key == $key) && ($item->user_id == $this->userId) && ($item->locale == $this->locale);
@@ -157,7 +157,11 @@ class Database implements Settings
 
     public function clearCache(): void
     {
-        Cache::forget('justijndepover_settings');
+        if (config('settings.cache_time') === 'current_request') {
+            unset($GLOBALS['justijndepover_settings']);
+        } else {
+            Cache::forget('justijndepover_settings');
+        }
     }
 
     private function fetchSettings()
@@ -166,6 +170,14 @@ class Database implements Settings
             $this->values = Cache::rememberForever('justijndepover_settings', function () {
                 return DB::table('settings')->get();
             });
+        } else if (config('settings.cache_time') === 'current_request') {
+            if (isset($GLOBALS['justijndepover_settings']) && $GLOBALS['justijndepover_settings'] instanceof Collection) {
+                $this->values = $GLOBALS['justijndepover_settings'];
+            } else {
+                $settings = DB::table('settings')->get();
+                $GLOBALS['justijndepover_settings'] = $settings;
+                $this->values = $settings;
+            }
         } else {
             $this->values = Cache::remember('justijndepover_settings', (int) config('settings.cache_time'), function () {
                 return DB::table('settings')->get();
