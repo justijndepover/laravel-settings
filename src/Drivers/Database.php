@@ -37,7 +37,7 @@ class Database implements Settings
 
         $this->resetScopes();
 
-        return ($setting && $setting->value) ? $setting->value : $default;
+        return ($setting && isset($setting->value)) ? $setting->value : $default;
     }
 
     public function set($key, string $value = null): void
@@ -87,7 +87,7 @@ class Database implements Settings
 
         $this->resetScopes();
 
-        return ($setting && $setting->value) ? true : false;
+        return ($setting && isset($setting->value)) ? true : false;
     }
 
     public function flush(): void

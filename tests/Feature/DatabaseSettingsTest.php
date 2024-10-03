@@ -360,4 +360,13 @@ class DatabaseSettingsTest extends TestCase
 
         $this->assertEquals('value2', settings('name'));
     }
+
+    /** @test */
+    public function it_can_handle_0()
+    {
+        settings()->set('value', 0);
+
+        $this->assertEquals(0, settings('value'));
+        $this->assertNotNull(settings('value'));
+    }
 }
