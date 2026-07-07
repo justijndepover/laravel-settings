@@ -369,4 +369,14 @@ class DatabaseSettingsTest extends TestCase
         $this->assertEquals(0, settings('value'));
         $this->assertNotNull(settings('value'));
     }
+
+    /** @test */
+    public function it_doesnt_bleed_settings()
+    {
+        $this->settings->forUser(1)->set('name', 'value');
+        $this->settings->set('other_name', 'other_value');
+
+        $this->assertEquals('value', settings()->forUser(1)->get('name'));
+        $this->assertEquals('other_value', settings()->get('other_name'));
+    }
 }
